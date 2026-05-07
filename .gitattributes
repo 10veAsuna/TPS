@@ -1,0 +1,19 @@
+* text=auto
+
+# Unreal assets are binary.
+*.uasset binary
+*.umap binary
+*.ubulk binary
+*.uexp binary
+*.ucas binary
+*.utoc binary
+*.pak binary
+
+# Common binary media.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.tga binary
+*.wav binary
+*.mp3 binary
+*.fbx binary
