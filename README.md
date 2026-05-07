@@ -14,12 +14,15 @@
 - Steam Online Subsystem 相关依赖接入
 - `MultiplayerSessions` 插件雏形
 - `WBP_Menu` 菜单资产
+- Host 按钮通过 `UMultiplayersSessionsSubsystem` 创建 Session
+- 创建 Session 完成后通过自定义委托通知菜单
+- Session 创建成功后跳转到 `Lobby` 地图
 - Windows Development 打包流程验证
 
 进行中：
 
 - 将角色类中的 Session 逻辑迁移到 `MultiplayerSessions` 插件
-- 补全 Host / Find / Join / Destroy / Start Session 流程
+- 补全 Find / Join / Destroy / Start Session 流程
 - 修正 Steam NetDriver 配置并完成双客户端联机测试
 
 ## 环境要求
@@ -83,7 +86,17 @@ Platforms -> Windows -> Package Project
 480
 ```
 
-注意：多人联机功能仍在开发中。目前主角色类和 `MultiplayerSessions` 插件中都存在会话相关代码，后续目标是统一迁移到插件中的 `UMultiplayersSessionsSubsystem`。
+注意：多人联机功能仍在开发中。目前 Host 创建 Session 的流程已经开始走 `UMultiplayersSessionsSubsystem`，并通过 `FMultiplayerOnCreateSessionComplete` 回调通知菜单。Session 创建成功后菜单会执行 `ServerTravel` 跳转到 `Lobby`。
+
+目前仍未完成：
+
+- 查找 Session
+- 加入 Session
+- 销毁已有 Session 后重新创建
+- 开始 Session
+- 双客户端 Steam 联机验证
+
+主角色类中仍保留了早期的会话测试代码，后续目标是统一迁移到插件中的 `UMultiplayersSessionsSubsystem`。
 
 ## Git 说明
 
@@ -95,6 +108,7 @@ Platforms -> Windows -> Package Project
 
 - 修复 `DefaultEngine.ini` 中 Steam NetDriver 配置
 - 补全 `MultiplayerSessions` 插件的查找和加入会话逻辑
-- 让菜单 Host / Join 完整走 Subsystem
+- 让菜单 Join 完整走 Subsystem
+- 处理已有 Session 时的 Destroy -> Create 流程
 - 移除角色类中临时的会话测试代码
 - 完成双客户端 Host / Join / Lobby 跳转测试
